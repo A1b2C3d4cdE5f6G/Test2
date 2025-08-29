@@ -1,24 +1,31 @@
+import { NextRequest, NextResponse } from "next/server";
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
-import { NextRequest } from "next/server";
 
 export async function POST(req) {
   try {
+    // اطبع الهيدرز
+    console.log("Headers:", Object.fromEntries(req.headers));
+
+    // اطبع البودي الخام
+    const body = await req.text();
+    console.log("Body:", body);
+
+    // جرب التحقق (بعد ما تتأكد أن الهيدرز وصلت)
     const evt = await verifyWebhook({
-      req,
-      secret: process.env.WEBHOOK_SECRET, // استخدم السيكرت من env
+      body,
+      secret: process.env.WEBHOOK_SECRET,
+      headers: {
+        "svix-id": req.headers.get("svix-id"),
+        "svix-signature": req.headers.get("svix-signature"),
+        "svix-timestamp": req.headers.get("svix-timestamp"),
+      },
     });
 
-    // Print webhook info
-    const { id } = evt.data;
-    const eventType = evt.type;
+    console.log("✅ Webhook verified:", evt);
 
-    console.log(`✅ Received webhook with ID: ${id}`);
-    console.log(`📌 Event type: ${eventType}`);
-    console.log("🔍 Full payload:", JSON.stringify(evt.data, null, 2));
-
-    return new Response("Webhook received", { status: 200 });
+    return NextResponse.json({ success: true });
   } catch (err) {
     console.error("❌ Error verifying webhook:", err);
-    return new Response("Error verifying webhook", { status: 400 });
+    return new NextResponse("Webhook Error", { status: 400 });
   }
 }
