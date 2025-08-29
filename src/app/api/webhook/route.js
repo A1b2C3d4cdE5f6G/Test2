@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(req) {
+  const body = await req.json();
+  console.log("📩 Webhook body:", body);
+  return NextResponse.json({ received: true });
+}
 
-  return NextResponse.json({ message:"fjhgjtgyk"});
+export async function GET() {
+  return NextResponse.json({ message: "Webhook route working (GET)" });
 }
