@@ -5,7 +5,7 @@ export async function POST(req) {
   try {
     const evt = await verifyWebhook({
       req,
-      secret: process.env.CLERK_WEBHOOK_SECRET, // استخدم السيكرت من env
+      secret: process.env.WEBHOOK_SECRET, // استخدم السيكرت من env
     });
 
     // Print webhook info
