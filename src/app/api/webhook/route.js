@@ -3,10 +3,7 @@ import { verifyWebhook } from "@clerk/nextjs/webhooks";
 
 export async function POST(req) {
   try {
-    // اطبع الهيدرز والبودي للـ debug
-    console.log("Headers:", Object.fromEntries(req.headers));
     const body = await req.text();
-    console.log("Body:", body);
 
     const evt = await verifyWebhook({
       body,
@@ -25,4 +22,12 @@ export async function POST(req) {
     console.error("❌ Error verifying webhook:", err);
     return new NextResponse("Webhook Error", { status: 400 });
   }
+}
+
+// حماية من GET/HEAD
+export function GET(req) {
+  return new NextResponse("Method Not Allowed", { status: 405 });
+}
+export function HEAD(req) {
+  return new NextResponse("Method Not Allowed", { status: 405 });
 }
