@@ -3,14 +3,11 @@ import { verifyWebhook } from "@clerk/nextjs/webhooks";
 
 export async function POST(req) {
   try {
-    // اطبع الهيدرز
+    // اطبع الهيدرز والبودي للـ debug
     console.log("Headers:", Object.fromEntries(req.headers));
-
-    // اطبع البودي الخام
     const body = await req.text();
     console.log("Body:", body);
 
-    // جرب التحقق (بعد ما تتأكد أن الهيدرز وصلت)
     const evt = await verifyWebhook({
       body,
       secret: process.env.WEBHOOK_SECRET,
