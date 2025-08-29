@@ -3,7 +3,8 @@ import { verifyWebhook } from "@clerk/nextjs/webhooks";
 
 export async function POST(req) {
   try {
-    const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
+    const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+
 
     // تحقق من وجود المتغير فقط، لا نطبع القيمة
     if (!WEBHOOK_SECRET) {
