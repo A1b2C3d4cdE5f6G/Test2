@@ -32,7 +32,7 @@ export async function POST(req) {
   try {
     console.log("📝 Updating Clerk publicMetadata for user:", evt?.data?.id);
 
-    await clerkClient.users.updateUserMetadata(evt?.data?.id, {
+    await clerkClient.users.updateUser(evt?.data?.id, {
       publicMetadata: {
         userMongoId: String(user._id),
         isAdmin: !!user.isAdmin,
