@@ -30,12 +30,8 @@ export async function POST(req) {
       );
  if (user && eventType === "user.created") {
   try {
-    console.log("📝 Updating Clerk publicMetadata for user:", evt?.data?.id);
-    console.log("Metadata to set:", { userMongoId: String(user._id), isAdmin: !!user.isAdmin });
-    console.log("clerkClient:", clerkClient);
-console.log("clerkClient.users:", clerkClient.users);
-console.log("userId from webhook:", evt?.data?.id);
-    await clerkClient.users.updateUserMetadata(evt?.data?.id, {
+      const client = await clerkClient();
+    await client.users.updateUserMetadata(evt?.data?.id, {
       publicMetadata: {
         userMongoId: String(user._id),
         isAdmin: !!user.isAdmin,
