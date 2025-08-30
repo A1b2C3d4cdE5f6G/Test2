@@ -35,7 +35,7 @@ export async function POST(req) {
     console.log("clerkClient:", clerkClient);
 console.log("clerkClient.users:", clerkClient.users);
 console.log("userId from webhook:", evt?.data?.id);
-    await clerkClient.users.updateUser(evt?.data?.id, {
+    await clerkClient.users.updateUserMetadata(evt?.data?.id, {
       publicMetadata: {
         userMongoId: String(user._id),
         isAdmin: !!user.isAdmin,
